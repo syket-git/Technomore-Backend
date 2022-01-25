@@ -3,6 +3,9 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const config = require('./config');
 
+//** Route */
+const userRouteHandler = require('./routes/userRouteHandler');
+
 const app = express();
 
 const { PORT } = config;
@@ -20,6 +23,8 @@ mongoose
   .catch((err) => console.log('DB connection error'));
 
 //** Application Route
+
+app.use('/api/user', userRouteHandler);
 
 app.use('/', (req, res) => {
   res.json({
