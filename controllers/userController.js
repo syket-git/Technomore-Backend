@@ -1,15 +1,15 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const config = require('../config');
+const jwt = require('jsonwebtoken');
 
 //** User Schema */
 const userSchema = require('../models/userSchema');
 const User = mongoose.model('User', userSchema);
 
-//** Create User Controller */
-
 const { saltRound } = config;
 
+//** Create User Controller */
 const createUserController = async (req, res) => {
   try {
     const findUsername = await User.find({ username: req.body.username });
@@ -40,6 +40,52 @@ const createUserController = async (req, res) => {
   }
 };
 
+//**Login Controller */
+const loginController = async (req, res) => {
+  try {
+    const findUser = await User.find({ username: req.body.username });
+    if (findUser?.length > 0) {
+      console.log(findUser);
+      const user = findUser[0];
+      const hashPassword = await bcrypt.compare(
+        req.body.password,
+        user.password
+      );
+
+      if (hashPassword) {
+        const token = jwt.sign(
+          {
+            userId: user?._id,
+            userName: user?.username,
+          },
+          process.env.JSON_SECRET,
+          { expiresIn: '1h' }
+        );
+
+        res.status(200).json({
+          success: true,
+          data: {
+            name: user?.name,
+            username: user?.username,
+            email: user?.email,
+            token,
+          },
+          message: 'Login successfully!',
+        });
+      } else {
+        res
+          .status(400)
+          .json({ success: false, message: 'Something went wrong' });
+      }
+    } else {
+      res.status(400).json({ success: false, message: 'Something went wrong' });
+    }
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Server side error' });
+  }
+};
+
 module.exports = {
   createUserController,
+  loginController,
 };

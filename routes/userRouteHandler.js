@@ -1,12 +1,18 @@
 const express = require('express');
 
-const { createUserController } = require('../controllers/userController');
+const {
+  createUserController,
+  loginController,
+} = require('../controllers/userController');
 const router = express.Router();
 
 //** Get all users */
 router.get('/all', async (req, res) => {});
 
 //** crate user */
-router.post('/', createUserController);
+router.post('/signup', createUserController);
+
+//** Login user */
+router.post('/login', loginController);
 
 module.exports = router;
