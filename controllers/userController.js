@@ -9,6 +9,17 @@ const User = mongoose.model('User', userSchema);
 
 const { saltRound } = config;
 
+//** Get all users */
+
+const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find().select('-password');
+    res.status(200).json({ success: true, data: users });
+  } catch (error) {
+    res.status(500).json({ success: true, message: 'Server side error' });
+  }
+};
+
 //** Create User Controller */
 const createUserController = async (req, res) => {
   try {
@@ -88,4 +99,5 @@ const loginController = async (req, res) => {
 module.exports = {
   createUserController,
   loginController,
+  getAllUsers,
 };

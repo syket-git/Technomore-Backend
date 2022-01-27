@@ -3,11 +3,12 @@ const express = require('express');
 const {
   createUserController,
   loginController,
+  getAllUsers,
 } = require('../controllers/userController');
 const router = express.Router();
 
 //** Get all users */
-router.get('/all', async (req, res) => {});
+router.get('/all', getAllUsers);
 
 //** crate user */
 router.post('/signup', createUserController);
