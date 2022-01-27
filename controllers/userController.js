@@ -20,6 +20,19 @@ const getAllUsers = async (req, res) => {
   }
 };
 
+//** Get user by id */
+
+const getUserById = async (req, res) => {
+  try {
+    const user = await User.findById({ _id: req.params.id }).select(
+      '-password'
+    );
+    res.status(200).json({ success: true, data: user });
+  } catch (error) {
+    res.status(500).json({ success: true, message: 'Server side error' });
+  }
+};
+
 //** Create User Controller */
 const createUserController = async (req, res) => {
   try {
@@ -100,4 +113,5 @@ module.exports = {
   createUserController,
   loginController,
   getAllUsers,
+  getUserById,
 };
