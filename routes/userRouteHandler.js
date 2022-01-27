@@ -6,10 +6,11 @@ const {
   getAllUsers,
   getUserById,
 } = require('../controllers/userController');
+const checkLogin = require('../middlewares/checkLogin');
 const router = express.Router();
 
 //** Get all users */
-router.get('/all', getAllUsers);
+router.get('/all', checkLogin, getAllUsers);
 
 //** Get Specific User */
 router.get('/:id', getUserById);

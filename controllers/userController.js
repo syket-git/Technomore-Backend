@@ -82,7 +82,7 @@ const loginController = async (req, res) => {
             userId: user?._id,
             userName: user?.username,
           },
-          process.env.JSON_SECRET,
+          process.env.JWT_SECRET,
           { expiresIn: '1h' }
         );
 
