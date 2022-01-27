@@ -8,7 +8,7 @@ const userRouteHandler = require('./routes/userRouteHandler');
 
 const app = express();
 
-const { PORT } = config;
+const { PORT, DB_NAME } = config;
 
 //** Initialize middleware
 app.use(express.json());
@@ -16,7 +16,7 @@ dotenv.config();
 
 //** Connect with mongodb
 mongoose
-  .connect(process.env.DB_CONNECTION_STRING)
+  .connect(`${process.env.DB_CONNECTION_STRING}/${DB_NAME}`)
   .then(() => {
     console.log('DB connected ');
   })
@@ -32,6 +32,17 @@ app.use('/', (req, res) => {
     message: 'Welcome to technomore backend',
   });
 });
+
+//** Error Handlers */
+
+const errorHandler = (err, req, res, next) => {
+  if (res.headersSent) {
+    return next(err);
+  }
+  res.status(500).json({ success: false, error });
+};
+
+app.use(errorHandler);
 
 //** Run server */
 app.listen(PORT, () => console.log(`Server up and running on ${PORT}`));

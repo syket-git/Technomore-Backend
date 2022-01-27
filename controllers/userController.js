@@ -11,10 +11,9 @@ const User = mongoose.model('User', userSchema);
 const { saltRound } = config;
 
 const createUserController = async (req, res) => {
-  console.log(req.body);
   try {
     const findUsername = await User.find({ username: req.body.username });
-    console.log(findUsername);
+
     if (findUsername && findUsername?.length <= 0) {
       const hashPassword = await bcrypt.hash(req.body.password, saltRound);
 
@@ -39,11 +38,6 @@ const createUserController = async (req, res) => {
   } catch (err) {
     res.status(500).json({ success: false, message: 'Server side error' });
   }
-
-  res.json({
-    success: true,
-    message: 'All users',
-  });
 };
 
 module.exports = {
