@@ -17,7 +17,7 @@ router.get('/all', checkLogin, getAllUsers);
 router.get('/:id', getUserById);
 
 //** Update user data */
-router.get('/:id', updateUserData);
+router.put('/:id', checkLogin, updateUserData);
 
 //** crate user */
 router.post('/signup', createUserController);
