@@ -5,6 +5,7 @@ const {
   loginController,
   getAllUsers,
   getUserById,
+  updateUserData,
 } = require('../controllers/userController');
 const checkLogin = require('../middlewares/checkLogin');
 const router = express.Router();
@@ -14,6 +15,9 @@ router.get('/all', checkLogin, getAllUsers);
 
 //** Get Specific User */
 router.get('/:id', getUserById);
+
+//** Update user data */
+router.get('/:id', updateUserData);
 
 //** crate user */
 router.post('/signup', createUserController);

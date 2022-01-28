@@ -33,6 +33,33 @@ const getUserById = async (req, res) => {
   }
 };
 
+//** Update user data */
+
+const updateUserData = async (req, res) => {
+  try {
+    await User.updateOne(
+      { _id: req.params.id },
+      {
+        $set: {
+          ...req.body,
+        },
+      },
+      { new: true },
+      (err, data) => {
+        if (err) {
+          res
+            .status(500)
+            .json({ success: false, message: 'There was a server side error' });
+        } else {
+          res.status(200).json({ success: true, data });
+        }
+      }
+    );
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Server side error' });
+  }
+};
+
 //** Create User Controller */
 const createUserController = async (req, res) => {
   try {
@@ -114,4 +141,5 @@ module.exports = {
   loginController,
   getAllUsers,
   getUserById,
+  updateUserData,
 };
