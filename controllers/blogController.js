@@ -17,6 +17,22 @@ const getAllBlogs = async (req, res) => {
   }
 };
 
+//** Get Specific blog */
+const getSpecificBlog = async (req, res) => {
+  try {
+    const blog = await Blog.find({ slug: req.params.slug });
+    if (blog && blog?.length > 0) {
+      res.status(200).json({ success: true, data: blog[0] });
+    } else {
+      res
+        .status(400)
+        .json({ success: false, message: 'sorry! we could not find any data' });
+    }
+  } catch (error) {
+    res.status(500).json({ success: true, message: 'Server side error' });
+  }
+};
+
 //** Create Blog */
 const createBlog = async (req, res) => {
   try {
@@ -46,4 +62,4 @@ const createBlog = async (req, res) => {
   }
 };
 
-module.exports = { createBlog, getAllBlogs };
+module.exports = { createBlog, getAllBlogs, getSpecificBlog };
