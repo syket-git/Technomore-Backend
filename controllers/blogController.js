@@ -80,4 +80,31 @@ const createBlog = async (req, res) => {
   );
 };
 
-module.exports = { createBlog, getAllBlogs, getSpecificBlog };
+//** Update specific blog */
+const updateSpecificBlog = async (req, res) => {
+  await Blog.findOneAndUpdate(
+    { slug: req.params.slug },
+    {
+      $set: {
+        ...req.body,
+      },
+    },
+    { new: true },
+    (err, data) => {
+      if (err) {
+        res
+          .status(500)
+          .json({ success: false, message: 'There was a server side error' });
+      } else {
+        res.status(200).json({ success: true, data });
+      }
+    }
+  );
+};
+
+module.exports = {
+  createBlog,
+  getAllBlogs,
+  updateSpecificBlog,
+  getSpecificBlog,
+};
