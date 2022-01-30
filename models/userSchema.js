@@ -30,6 +30,12 @@ const userSchema = new mongoose.Schema(
       data: Buffer,
       contentType: String,
     },
+    blogs: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: 'Blog',
+      },
+    ],
   },
   {
     timestamps: true,
