@@ -13,7 +13,7 @@ const { saltRound } = config;
 
 const getAllUsers = async (req, res) => {
   try {
-    const users = await User.find().select('-password');
+    const users = await User.find().populate('blogs').select('-password');
     res.status(200).json({ success: true, data: users });
   } catch (error) {
     res.status(500).json({ success: true, message: 'Server side error' });
@@ -24,9 +24,9 @@ const getAllUsers = async (req, res) => {
 
 const getUserById = async (req, res) => {
   try {
-    const user = await User.findById({ _id: req.params.id }).select(
-      '-password'
-    );
+    const user = await User.findById({ _id: req.params.id })
+      .populate('blogs')
+      .select('-password');
 
     if (user) {
       res.status(200).json({ success: true, data: user });

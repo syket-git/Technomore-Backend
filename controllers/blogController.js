@@ -13,7 +13,10 @@ const User = mongoose.model('User', userSchema);
 
 const getAllBlogs = async (req, res) => {
   try {
-    const blogs = await Blog.find();
+    const blogs = await Blog.find().populate(
+      'author',
+      'name username email blogs'
+    );
     res.status(200).json({ success: true, data: blogs });
   } catch (error) {
     res.status(500).json({ success: true, message: 'Server side error' });
@@ -23,7 +26,10 @@ const getAllBlogs = async (req, res) => {
 //** Get Specific blog */
 const getSpecificBlog = async (req, res) => {
   try {
-    const blog = await Blog.find({ slug: req.params.slug });
+    const blog = await await Blog.find({ slug: req.params.slug }).populate(
+      'author',
+      'name username email blogs'
+    );
     if (blog && blog?.length > 0) {
       res.status(200).json({ success: true, data: blog[0] });
     } else {
