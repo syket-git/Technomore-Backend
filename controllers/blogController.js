@@ -6,6 +6,18 @@ const config = require('../config');
 const blogSchema = require('../models/blogSchema');
 const Blog = mongoose.model('Blog', blogSchema);
 
+//** Get All blogs */
+
+const getAllBlogs = async (req, res) => {
+  try {
+    const blogs = await Blog.find();
+    res.status(200).json({ success: true, data: blogs });
+  } catch (error) {
+    res.status(500).json({ success: true, message: 'Server side error' });
+  }
+};
+
+//** Create Blog */
 const createBlog = async (req, res) => {
   try {
     const slugifyTitle = slugify(req.body.title, '-');
@@ -34,4 +46,4 @@ const createBlog = async (req, res) => {
   }
 };
 
-module.exports = { createBlog };
+module.exports = { createBlog, getAllBlogs };
