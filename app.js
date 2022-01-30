@@ -5,6 +5,7 @@ const config = require('./config');
 
 //** Route */
 const userRouteHandler = require('./routes/userRouteHandler');
+const blogRouteHandler = require('./routes/blogRouteHandler');
 
 const app = express();
 
@@ -25,6 +26,7 @@ mongoose
 //** Application Route
 
 app.use('/api/user', userRouteHandler);
+app.use('/api/blog', blogRouteHandler);
 
 app.use('/', (req, res) => {
   res.json({
