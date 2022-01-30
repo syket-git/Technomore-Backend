@@ -102,9 +102,30 @@ const updateSpecificBlog = async (req, res) => {
   );
 };
 
+//** Delete specific Blog */
+
+const deleteSpecificBlog = async (req, res) => {
+  await Blog.findOneAndDelete(
+    { slug: req.params.slug },
+
+    (err, data) => {
+      if (err) {
+        res
+          .status(500)
+          .json({ success: false, message: 'There was a server side error' });
+      } else {
+        res
+          .status(200)
+          .json({ success: true, message: 'Blog was deleted successfully' });
+      }
+    }
+  );
+};
+
 module.exports = {
   createBlog,
   getAllBlogs,
   updateSpecificBlog,
   getSpecificBlog,
+  deleteSpecificBlog,
 };
